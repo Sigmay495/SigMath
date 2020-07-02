@@ -25,6 +25,9 @@ interface MutablePoint : Point {
     override fun times(d: Double): MutablePoint
     override fun div(d: Double): MutablePoint
 
+    override fun times(n: Number) = times(n.toDouble())
+    override fun div(n: Number) = div(n.toDouble())
+
     operator fun plusAssign(p: Point)
     operator fun minusAssign(p: Point)
     operator fun timesAssign(d: Double)

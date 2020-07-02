@@ -1,6 +1,6 @@
 package com.sigmay.sigmath.point
 
-import com.sigmay.sigmath.common.PointException
+import com.sigmay.sigmath.common.exception.PointArithmeticException
 
 /**
  * Double型の座標値を持つ点。
@@ -34,13 +34,16 @@ class DoublePoint private constructor(override var x: Double, override var y: Do
 
     override fun minus(p: Point) = DoublePoint(x - p.x, y - p.y)
 
-    override fun times(d: Double) = DoublePoint(x * d, y * d, z * d)
+    override fun times(d: Double) = when {
+        hasZ -> DoublePoint(x * d, y * d, z * d)
+        else -> DoublePoint(x * d, y * d)
+    }
 
-    override fun div(d: Double) =
-            if (d == 0.0)
-                throw PointException("0では割ることができません。")
-            else
-                DoublePoint(x / d, y / d, z / d)
+    override fun div(d: Double) = when {
+        d == 0.0 -> throw PointArithmeticException("0では割ることができません。")
+        hasZ -> DoublePoint(x / d, y / d, z / d)
+        else -> DoublePoint(x / d, y / d)
+    }
 
     override fun plusAssign(p: Point3d) {
         x += p.x
@@ -67,23 +70,37 @@ class DoublePoint private constructor(override var x: Double, override var y: Do
     override fun timesAssign(d: Double) {
         x *= d
         y *= d
-        z *= d
+        if (hasZ)
+            z *= d
     }
 
     override fun divAssign(d: Double) {
         if (d == 0.0)
-            throw PointException("0では割ることができません。")
+            throw PointArithmeticException("0では割ることができません。")
         x /= d
         y /= d
-        z /= d
+        if (hasZ)
+            z /= d
     }
 
+    /**
+     * Point型に変換する。
+     */
     override fun toPoint(): Point = DoublePoint(x, y)
 
+    /**
+     * MutablePoint型に変換する。
+     */
     override fun toMutablePoint(): MutablePoint = DoublePoint(x, y)
 
+    /**
+     * Point3d型に変換する。
+     */
     override fun toPoint3d(): Point3d = DoublePoint(x, y, z)
 
+    /**
+     * MutablePoint3d型に変換する。
+     */
     override fun toMutablePoint3d(): MutablePoint3d = DoublePoint(x, y, z)
 
     override fun equals(other: Any?): Boolean {
@@ -104,9 +121,13 @@ class DoublePoint private constructor(override var x: Double, override var y: Do
         var result = x.hashCode()
         result = 31 * result + y.hashCode()
         result = 31 * result + z.hashCode()
+        result = 31 * result + hasZ.hashCode()
         return result
     }
 
-    override fun toString() = if (hasZ) "($x, $y, $z)" else "($x, $y)"
+    override fun toString() = when {
+        hasZ -> "($x, $y, $z)"
+        else -> "($x, $y)"
+    }
 
 }

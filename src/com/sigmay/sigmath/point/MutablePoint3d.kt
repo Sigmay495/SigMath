@@ -20,6 +20,9 @@ interface MutablePoint3d : Point3d, MutablePoint {
     override fun times(d: Double): MutablePoint3d
     override fun div(d: Double): MutablePoint3d
 
+    override fun times(n: Number) = times(n.toDouble())
+    override fun div(n: Number) = div(n.toDouble())
+
     operator fun plusAssign(p: Point3d)
     operator fun minusAssign(p: Point3d)
     override fun timesAssign(d: Double)

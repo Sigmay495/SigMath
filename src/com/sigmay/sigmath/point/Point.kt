@@ -1,6 +1,8 @@
 package com.sigmay.sigmath.point
 
 import java.io.Serializable
+import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -36,9 +38,19 @@ interface Point : Serializable {
     operator fun component2() = y
 
     /**
-     * ある点 [p] との距離を求める。
+     * 点 [p] とのユークリッド距離を求める。
      */
     fun distance(p: Point) = sqrt((x - p.x).pow(2) + (y - p.y).pow(2))
+
+    /**
+     * 点 [p] とのマンハッタン距離を計算する。
+     */
+    fun manhattanDistance(p: Point) = abs(x - p.x) + abs(y - p.y)
+
+    /**
+     * 点 [p] とのチェビシェフ距離を計算する。
+     */
+    fun chebyshevDistance(p: Point) = max(abs(x - p.x), abs(y - p.y))
 
     /**
      * Point型に変換する。

@@ -1,5 +1,7 @@
 package com.sigmay.sigmath.point
 
+import kotlin.math.abs
+import kotlin.math.max
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -29,7 +31,17 @@ interface Point3d : Point {
     operator fun component3() = z
 
     /**
-     * ある点 [p] との距離を求める。
+     * 点 [p] とのユークリッド距離を求める。
      */
     fun distance(p: Point3d) = sqrt((x - p.x).pow(2) + (y - p.y).pow(2) + (z - p.z).pow(2))
+
+    /**
+     * 点 [p] とのマンハッタン距離を計算する。
+     */
+    fun manhattanDistance(p: Point3d) = abs(x - p.x) + abs(y - p.y) + abs(z - p.z)
+
+    /**
+     * 点 [p] とのチェビシェフ距離を計算する。
+     */
+    fun chebyshevDistance(p: Point3d) = max(max(abs(x - p.x), abs(y - p.y)), abs(z - p.z))
 }
