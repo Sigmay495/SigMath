@@ -16,22 +16,22 @@ import kotlin.math.sqrt
 class DoubleVector private constructor(private val elements: DoubleArray, override val dim: Int) : MutableVector {
 
     /**
-     * 指定した要素を持つベクトルを生成する。
+     * [array] に含まれる要素を持つベクトルを生成する。
      */
     constructor(array: DoubleArray) : this(array, array.size)
 
     /**
-     * 指定した要素を持つベクトルを生成する。
+     * [collection] に含まれる要素を持つベクトルを生成する。
      */
     constructor(collection: Collection<Double>) : this(collection.toDoubleArray(), collection.size)
 
     /**
-     * ゼロベクトルを生成する。
+     * [dim] 次元のゼロベクトルを生成する。
      */
     constructor(dim: Int) : this(DoubleArray(dim), dim)
 
     /**
-     * 関数で初期化した要素を持つベクトルを生成する。
+     * 関数 [init] で初期化した要素を持つ [dim] 次元のベクトルを生成する。
      */
     constructor(dim: Int, init: (Int) -> Double) : this(DoubleArray(dim, init), dim)
 
