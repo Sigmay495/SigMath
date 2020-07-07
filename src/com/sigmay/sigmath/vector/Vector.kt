@@ -1,7 +1,6 @@
 package com.sigmay.sigmath.vector
 
 import java.io.Serializable
-import kotlin.math.sqrt
 
 /**
  * ベクトルのインタフェース。

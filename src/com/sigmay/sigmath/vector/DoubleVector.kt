@@ -7,14 +7,32 @@ import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 
+/**
+ * Double型の要素を持つベクトル。
+ *
+ * @property elements 要素の配列
+ * @property dim 次元数
+ */
 class DoubleVector private constructor(private val elements: DoubleArray, override val dim: Int) : MutableVector {
 
-    constructor(vararg v: Double) : this(v, v.size)
+    /**
+     * 指定した要素を持つベクトルを生成する。
+     */
+    constructor(array: DoubleArray) : this(array, array.size)
 
-    constructor(v: Collection<Double>) : this(v.toDoubleArray(), v.size)
+    /**
+     * 指定した要素を持つベクトルを生成する。
+     */
+    constructor(collection: Collection<Double>) : this(collection.toDoubleArray(), collection.size)
 
+    /**
+     * ゼロベクトルを生成する。
+     */
     constructor(dim: Int) : this(DoubleArray(dim), dim)
 
+    /**
+     * 関数で初期化した要素を持つベクトルを生成する。
+     */
     constructor(dim: Int, init: (Int) -> Double) : this(DoubleArray(dim, init), dim)
 
     override fun unaryPlus() = DoubleVector(elements, dim)
@@ -92,14 +110,14 @@ class DoubleVector private constructor(private val elements: DoubleArray, overri
      */
     override fun cross(v: Vector) = when {
         dim != v.dim -> throw VectorArithmeticException("次元数が一致していません。")
-        dim == 0 -> DoubleVector()
-        dim == 1 -> DoubleVector(0.0)
-        dim == 3 -> DoubleVector(
+        dim == 0 -> DoubleVector(0)
+        dim == 1 -> DoubleVector(1)
+        dim == 3 -> DoubleVector(listOf(
                 elements[1] * v[2] - elements[2] * v[1],
                 elements[2] * v[0] - elements[0] * v[2],
                 elements[0] * v[1] - elements[1] * v[0]
-        )
-        dim == 7 -> DoubleVector(
+        ))
+        dim == 7 -> DoubleVector(listOf(
                 elements[1] * v[2] - elements[2] * v[1] - elements[3] * v[4] + elements[4] * v[3] - elements[5] * v[6] + elements[6] * v[5],
                 -elements[0] * v[2] + elements[2] * v[0] - elements[3] * v[5] + elements[4] * v[6] + elements[5] * v[3] - elements[6] * v[4],
                 elements[0] * v[1] - elements[1] * v[0] - elements[3] * v[6] - elements[4] * v[5] + elements[5] * v[4] + elements[6] * v[3],
@@ -107,7 +125,7 @@ class DoubleVector private constructor(private val elements: DoubleArray, overri
                 -elements[0] * v[3] - elements[1] * v[6] + elements[2] * v[5] + elements[3] * v[0] - elements[5] * v[2] - elements[6] * v[1],
                 elements[0] * v[6] - elements[1] * v[3] - elements[2] * v[4] + elements[3] * v[1] + elements[4] * v[2] - elements[6] * v[0],
                 -elements[0] * v[5] + elements[1] * v[4] - elements[2] * v[3] + elements[3] * v[2] - elements[4] * v[1] + elements[5] * v[0]
-        )
+        ))
         else -> throw VectorArithmeticException("クロス積（外積）が定義されていません。")
     }
 
