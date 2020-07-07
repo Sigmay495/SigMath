@@ -2,7 +2,6 @@ package com.sigmay.sigmath.vector
 
 import com.sigmay.sigmath.common.exception.VectorArithmeticException
 import com.sigmay.sigmath.common.extension.mean
-import com.sigmay.sigmath.common.extension.variance
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -201,13 +200,4 @@ class DoubleVector private constructor(private val elements: DoubleArray, overri
     }
 
     override fun toString() = elements.contentToString()
-}
-
-fun main() {
-    val v = DoubleVector(5) { it.toDouble() + 1.0 }
-    val v2 = DoubleVector(5) { it.toDouble() + 1 }
-    v += v2
-    v.normalize(1.0, 2.0)
-    v.variance()
-    println(v)
 }
